@@ -1,0 +1,14 @@
+## Interface: 11200
+## Author: 旧德二世
+## Title: CheckBuffer
+## Notes: 检查自己身上的团队buff状态和消耗品的插件
+## Title-zhCN:|CFF33AAFF[辅助]|RBuff检查器
+## Notes-zhCN: 检查自己身上的团队buff和消耗品，并提醒缺失的buff以及消耗品，另外还有自动使用消耗品的功能
+## X-Repple: 辅助
+## Version: 1.0.0
+
+CheckBufferCommon.lua
+CheckBuffer.lua
+CheckBufferConsumable.lua
+CheckBufferAutoConsume.lua
+CheckBufferAutoDispel.lua
