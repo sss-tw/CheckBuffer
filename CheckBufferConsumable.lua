@@ -64,7 +64,6 @@ local consumablesList = {
     pdps = {  -- 物理DPS药剂和食物
         {name = "赞扎之魂", buffName = "赞扎之魂", type = "potion"},
         {name = "猫鼬药剂", buffName = "猫鼬药剂", type = "potion"},
-        {name = "超强防御药剂", buffName = "强效护甲", type = "potion"},
         {name = "坚韧药剂", buffName = "生命 II", type = "potion"},
         {name = "厚甲蝎药粉", buffName = "厚甲蝎之击", type = "potion"},
         {name = "魂能之力", buffName = "魂能之力", type = "potion"},
@@ -99,6 +98,7 @@ local consumablesList = {
         {name = "魔血药水", buffName = "法力回复", type = "potion"},
         {name = "超级能量合剂", buffName = "至高能量", type = "potion"},
         {name = "梦境酊剂", buffName = "梦通", type = "potion"},
+        {name = "和谐灵药", buffName = "和谐灵药", type = "potion"},
         {name = "梦境精华药剂", buffName = "梦境精华药剂", type = "potion"},
         {name = "强效奥法药剂", buffName = "强效奥法药剂", type = "potion"},
         {name = "强效自然之力药水", buffName = "强效自然力量药剂", type = "potion"},
