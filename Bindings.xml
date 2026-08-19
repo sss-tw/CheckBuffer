@@ -1,0 +1,71 @@
+<Bindings>
+    <Binding name="CHECKBUFFER_CHECK_TANK" header="CHECKBUFFER_HEADER">
+        CheckBuffer_CheckConsumableProfileByIndex(1);
+    </Binding>
+    <Binding name="CHECKBUFFER_CONSUME_TANK">
+        CheckBuffer_AutoConsumeProfileByIndex(1);
+    </Binding>
+
+    <Binding name="CHECKBUFFER_CHECK_HEALER">
+        CheckBuffer_CheckConsumableProfileByIndex(2);
+    </Binding>
+    <Binding name="CHECKBUFFER_CONSUME_HEALER">
+        CheckBuffer_AutoConsumeProfileByIndex(2);
+    </Binding>
+
+    <Binding name="CHECKBUFFER_CHECK_PDPS">
+        CheckBuffer_CheckConsumableProfileByIndex(3);
+    </Binding>
+    <Binding name="CHECKBUFFER_CONSUME_PDPS">
+        CheckBuffer_AutoConsumeProfileByIndex(3);
+    </Binding>
+
+    <Binding name="CHECKBUFFER_CHECK_FDPS">
+        CheckBuffer_CheckConsumableProfileByIndex(4);
+    </Binding>
+    <Binding name="CHECKBUFFER_CONSUME_FDPS">
+        CheckBuffer_AutoConsumeProfileByIndex(4);
+    </Binding>
+
+    <Binding name="CHECKBUFFER_CHECK_MDPS">
+        CheckBuffer_CheckConsumableProfileByIndex(5);
+    </Binding>
+    <Binding name="CHECKBUFFER_CONSUME_MDPS">
+        CheckBuffer_AutoConsumeProfileByIndex(5);
+    </Binding>
+
+    <Binding name="CHECKBUFFER_CHECK_CUSTOM_1">
+        CheckBuffer_CheckConsumableProfileByIndex(6);
+    </Binding>
+    <Binding name="CHECKBUFFER_CONSUME_CUSTOM_1">
+        CheckBuffer_AutoConsumeProfileByIndex(6);
+    </Binding>
+
+    <Binding name="CHECKBUFFER_CHECK_CUSTOM_2">
+        CheckBuffer_CheckConsumableProfileByIndex(7);
+    </Binding>
+    <Binding name="CHECKBUFFER_CONSUME_CUSTOM_2">
+        CheckBuffer_AutoConsumeProfileByIndex(7);
+    </Binding>
+
+    <Binding name="CHECKBUFFER_CHECK_CUSTOM_3">
+        CheckBuffer_CheckConsumableProfileByIndex(8);
+    </Binding>
+    <Binding name="CHECKBUFFER_CONSUME_CUSTOM_3">
+        CheckBuffer_AutoConsumeProfileByIndex(8);
+    </Binding>
+
+    <Binding name="CHECKBUFFER_CHECK_CUSTOM_4">
+        CheckBuffer_CheckConsumableProfileByIndex(9);
+    </Binding>
+    <Binding name="CHECKBUFFER_CONSUME_CUSTOM_4">
+        CheckBuffer_AutoConsumeProfileByIndex(9);
+    </Binding>
+
+    <Binding name="CHECKBUFFER_CHECK_CUSTOM_5">
+        CheckBuffer_CheckConsumableProfileByIndex(10);
+    </Binding>
+    <Binding name="CHECKBUFFER_CONSUME_CUSTOM_5">
+        CheckBuffer_AutoConsumeProfileByIndex(10);
+    </Binding>
+</Bindings>

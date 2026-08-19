@@ -223,7 +223,7 @@ local function HasFoodBuff(foodEffectDesc)
         if not tooltipSuccess then
             PrintMessage("[DEBUG] HasFoodBuff: 设置buff tooltip失败，继续检查下一个", false)
             i = i + 1
-            -- 使用标准循环结构代替goto
+            -- 使用标准循环结构继续处理下一个buff
         else
         
         -- 安全获取文本
@@ -282,6 +282,15 @@ local function HasWeaponEnchant(slot, enchantName)
     if not enchantName then
         return false, 0
     end
+
+    -- 如果未指定槽位，则同时检查主手和副手。消耗品定义不需要关心主副手。
+    if not slot or slot == "" or string.lower(slot) == "any" then
+        local hasMain, mainTimeLeft = HasWeaponEnchant("main", enchantName)
+        if hasMain then
+            return hasMain, mainTimeLeft
+        end
+        return HasWeaponEnchant("off", enchantName)
+    end
     
     -- 设置默认值
     local slotName = ""
@@ -339,22 +348,25 @@ local function HasWeaponEnchant(slot, enchantName)
                 -- 尝试从文本中提取括号内的时间信息，支持全角和半角括号
                 -- 格式可能是 "效果名称 (XX分钟)" 或 "效果名称 （XX分钟）"
                 -- 或 "效果名称 (XX秒)" 或 "效果名称 （XX秒）"
-                local timeText = string.match(text, "%((.-)%)") or string.match(text, "（(.-)）")
+                local _, _, timeText = string.find(text, "%((.-)%)")
+                if not timeText then
+                    _, _, timeText = string.find(text, "（(.-)）")
+                end
                 if timeText then
                     PrintMessage("[DEBUG] 发现时间信息: " .. timeText, false)
                     
                     timeLeft = 0
                     
                     -- 尝试解析"分钟"
-                    local minutes = string.match(timeText, "(%d+)分钟")
+                    local _, _, minutes = string.find(timeText, "(%d+)分钟")
                     if not minutes then
                         -- 尝试其他可能的格式
-                        minutes = string.match(timeText, "(%d+)分")
+                        _, _, minutes = string.find(timeText, "(%d+)分")
                     end
                     minutes = minutes and tonumber(minutes) or 0
                     
                     -- 尝试解析"秒"
-                    local seconds = string.match(timeText, "(%d+)秒")
+                    local _, _, seconds = string.find(timeText, "(%d+)秒")
                     seconds = seconds and tonumber(seconds) or 0
                     
                     -- 计算总秒数

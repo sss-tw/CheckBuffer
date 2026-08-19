@@ -139,8 +139,8 @@ SlashCmdList["CHECKBUFFER_AUTODISPEL"] = function(msg)
         msg = ""
     end
     
-    -- 使用string.match而不是冒号语法
-    local cmd, arg = string.match(msg, "(%S+)%s*(%S*)")
+    -- 使用 Lua 5.0 可用的 string.find 捕获参数
+    local _, _, cmd, arg = string.find(msg, "(%S+)%s*(%S*)")
     cmd = string.lower(cmd or "")
     arg = string.lower(arg or "")
 

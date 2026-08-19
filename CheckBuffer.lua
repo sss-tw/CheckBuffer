@@ -532,8 +532,10 @@ function CheckMagicDPSBuffs()
     end
     
     -- 检查法系DPS的药剂和食物
-    PrintMessage("正在检查法系DPS消耗品...", false)
-    CheckRoleConsumables("mdps")
+    if CheckBufferConsumableAPI and CheckBufferConsumableAPI.CheckRoleConsumables then
+        PrintMessage("正在检查法系DPS消耗品...", false)
+        CheckBufferConsumableAPI.CheckRoleConsumables("法系DPS")
+    end
     
     return table.getn(missingBuffs) == 0
 end
@@ -597,6 +599,7 @@ local function ShowHelp()
     PrintMessage("/cbad list <角色类型> - 显示指定角色类型的unwanted buff列表", true)
     PrintMessage("", true)
     PrintMessage("=== 系统设置 ===", true)
+    PrintMessage("/cb config - 打开消耗品Profile配置界面", true)
     PrintMessage("/cb log on/off - 启用/禁用调试日志", true)
     PrintMessage("/cb channel [频道] - 设置通信频道", true)
     PrintMessage("/cb channels - 列出所有可用频道", true)
@@ -624,6 +627,12 @@ SlashCmdList["CHECKBUFFER"] = function(msg)
     elseif command == "buffs" then
         -- 显示所有buff的图标信息
         CheckBufferCommon.ShowAllBuffIcons()
+    elseif command == "config" then
+        if CheckBuffer_OpenConfigUI then
+            CheckBuffer_OpenConfigUI()
+        else
+            PrintMessage("配置界面尚未加载", true)
+        end
     else
         -- 检查是否是日志控制命令
         if string.sub(command, 1, 4) == "log " then

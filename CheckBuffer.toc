@@ -6,12 +6,16 @@
 ## Notes-zhCN: 检查自己身上的团队buff和消耗品，并提醒缺失的buff以及消耗品，另外还有自动使用消耗品的功能
 ## X-Repple: 辅助
 ## Version: 1.0.0
+## SavedVariablesPerCharacter: CheckBufferProfilesDB
 
 CheckBufferCommon.lua
+CheckBufferProfiles.lua
 CheckBuffer.lua
 CheckBufferConsumable.lua
 CheckBufferAutoConsume.lua
 CheckBufferAutoDispel.lua
+CheckBufferConfigUI.lua
+Bindings.xml
 
 ## X-PluginId: 31
 ## X-PublishTime: 2026-07-14 23:16:16
