@@ -12,3 +12,8 @@ CheckBuffer.lua
 CheckBufferConsumable.lua
 CheckBufferAutoConsume.lua
 CheckBufferAutoDispel.lua
+
+## X-PluginId: 31
+## X-PublishTime: 2026-07-14 23:16:16
+## X-Version: 20260714001
+## X-OverrideMode: 1

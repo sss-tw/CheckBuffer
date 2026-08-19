@@ -37,6 +37,8 @@ local consumablesList = {
     tank = {  -- 坦克药剂和食物
         {name = "赞扎之魂", buffName = "赞扎之魂", type = "potion"},
         {name = "坚韧药剂", buffName = "生命 II", type = "potion"},
+        {name = "翡翠猫鼬药剂", buffName = "翡翠猫鼬药剂", type = "potion"},
+        {name = "敏捷药剂", buffName = "敏捷", type = "potion"},
         {name = "猫鼬药剂", buffName = "猫鼬药剂", type = "potion"},
         {name = "超强防御药剂", buffName = "强效护甲", type = "potion"},
         {name = "厚甲蝎药粉", buffName = "厚甲蝎之击", type = "potion"},
@@ -63,6 +65,8 @@ local consumablesList = {
     },
     pdps = {  -- 物理DPS药剂和食物
         {name = "赞扎之魂", buffName = "赞扎之魂", type = "potion"},
+        {name = "翡翠猫鼬药剂", buffName = "翡翠猫鼬药剂", type = "potion"},
+        {name = "敏捷药剂", buffName = "敏捷", type = "potion"},
         {name = "猫鼬药剂", buffName = "猫鼬药剂", type = "potion"},
         {name = "坚韧药剂", buffName = "生命 II", type = "potion"},
         {name = "厚甲蝎药粉", buffName = "厚甲蝎之击", type = "potion"},
@@ -100,7 +104,9 @@ local consumablesList = {
         {name = "梦境酊剂", buffName = "梦通", type = "potion"},
         {name = "和谐灵药", buffName = "和谐灵药", type = "potion"},
         {name = "梦境精华药剂", buffName = "梦境精华药剂", type = "potion"},
+        {name = "奥法巨人药剂", buffName = "奥法巨人药剂", type = "potion"},
         {name = "强效奥法药剂", buffName = "强效奥法药剂", type = "potion"},
+        {name = "奥法药剂", buffName = "奥法药剂", type = "potion"},
         {name = "强效自然之力药水", buffName = "强效自然力量药剂", type = "potion"},
         {name = "强效奥术之力药剂", buffName = "强效奥术之力", type = "potion"},
         {name = "麦迪文的蓝标葡萄酒", buffName = "麦迪文的蓝标葡萄酒", type = "potion"},
@@ -126,6 +132,29 @@ local function CheckRoleConsumables(roleType)
     
     -- 用于记录已检测到的消耗品
     local detectedConsumables = {}
+    local usesMongooseChoice = roleType == "tank" or roleType == "pdps"
+    local hasEmeraldMongoose = false
+    local emeraldMongooseTimeLeft = 0
+    local hasMongoose = false
+    local mongooseTimeLeft = 0
+    local usesArcaneElixirChoice = roleType == "mdps"
+    local hasArcaneGiant = false
+    local arcaneGiantTimeLeft = 0
+    local hasGreaterArcane = false
+    local greaterArcaneTimeLeft = 0
+    local hasArcane = false
+    local arcaneTimeLeft = 0
+
+    if usesMongooseChoice then
+        hasEmeraldMongoose, emeraldMongooseTimeLeft = HasBuff("翡翠猫鼬药剂")
+        hasMongoose, mongooseTimeLeft = HasBuff("猫鼬药剂")
+    end
+
+    if usesArcaneElixirChoice then
+        hasArcaneGiant, arcaneGiantTimeLeft = HasBuff("奥法巨人药剂")
+        hasGreaterArcane, greaterArcaneTimeLeft = HasBuff("强效奥法药剂")
+        hasArcane, arcaneTimeLeft = HasBuff("奥法药剂")
+    end
     
     -- 检查每个消耗品
     for i, consumable in ipairs(roleConsumables) do
@@ -169,7 +198,50 @@ local function CheckRoleConsumables(roleType)
             PrintMessage("[DEBUG] " .. slotText .. "武器附魔 " .. consumable.name .. " 检查结果: " .. tostring(hasBuff), false)
         else
             -- 对于药剂，正常检查buff名称（黑根酒/冬泉火酒做优先级兼容）
-            if consumable.name == "黑根酒" then
+            if usesMongooseChoice and consumable.name == "翡翠猫鼬药剂" then
+                PrintMessage("[DEBUG] 即将检查药剂buff: 翡翠猫鼬优先，猫鼬作为替代", false)
+                hasBuff = hasEmeraldMongoose or hasMongoose
+                timeLeft = hasEmeraldMongoose and emeraldMongooseTimeLeft or mongooseTimeLeft
+            elseif usesMongooseChoice and consumable.name == "敏捷药剂" then
+                if hasEmeraldMongoose then
+                    PrintMessage("[DEBUG] 已检测到翡翠猫鼬药剂，继续检查敏捷药剂", false)
+                    hasBuff, timeLeft = HasBuff(consumable.buffName)
+                elseif hasMongoose then
+                    PrintMessage("[DEBUG] 已检测到猫鼬药剂，跳过敏捷药剂检查", false)
+                    hasBuff = true
+                    timeLeft = mongooseTimeLeft
+                else
+                    PrintMessage("[DEBUG] 未选择翡翠猫鼬路线，暂不检查敏捷药剂", false)
+                    hasBuff = true
+                    timeLeft = 0
+                end
+            elseif usesMongooseChoice and consumable.name == "猫鼬药剂" then
+                PrintMessage("[DEBUG] 即将检查药剂buff: 猫鼬作为翡翠猫鼬缺失时的替代", false)
+                hasBuff = hasMongoose or hasEmeraldMongoose
+                timeLeft = hasMongoose and mongooseTimeLeft or emeraldMongooseTimeLeft
+            elseif usesArcaneElixirChoice and consumable.name == "奥法巨人药剂" then
+                PrintMessage("[DEBUG] 即将检查药剂buff: 奥法巨人优先，强效奥法作为替代", false)
+                hasBuff = hasArcaneGiant or hasGreaterArcane
+                timeLeft = hasArcaneGiant and arcaneGiantTimeLeft or greaterArcaneTimeLeft
+            elseif usesArcaneElixirChoice and consumable.name == "强效奥法药剂" then
+                PrintMessage("[DEBUG] 即将检查药剂buff: 强效奥法作为奥法巨人缺失时的替代", false)
+                hasBuff = hasGreaterArcane or hasArcaneGiant
+                timeLeft = hasGreaterArcane and greaterArcaneTimeLeft or arcaneGiantTimeLeft
+            elseif usesArcaneElixirChoice and consumable.name == "奥法药剂" then
+                if hasArcaneGiant then
+                    PrintMessage("[DEBUG] 已检测到奥法巨人药剂，继续检查奥法药剂", false)
+                    hasBuff = hasArcane
+                    timeLeft = arcaneTimeLeft
+                elseif hasGreaterArcane then
+                    PrintMessage("[DEBUG] 已检测到强效奥法药剂，跳过奥法药剂检查", false)
+                    hasBuff = true
+                    timeLeft = greaterArcaneTimeLeft
+                else
+                    PrintMessage("[DEBUG] 未选择奥法巨人路线，暂不检查奥法药剂", false)
+                    hasBuff = true
+                    timeLeft = 0
+                end
+            elseif consumable.name == "黑根酒" then
                 PrintMessage("[DEBUG] 即将检查药剂buff: 黑根酒（优先）", false)
                 hasBuff, timeLeft = HasBuff("黑根酒")
                 if not hasBuff then
